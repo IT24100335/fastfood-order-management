@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Menu | Order Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="/js/auth.js"></script>
+</head>
+
+<body>
+<div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">Crave<span>Admin</span></div>
+        <ul class="nav-links">
+            <li><a href="/dashboard.html"><span class="icon">📊</span> Overview & Users</a></li>
+            <li><a href="/menu.html"><span class="icon">🍔</span> Menu</a></li>
+            <li class="active"><a href="/order.html"><span class="icon">📦</span> Orders</a></li>
+            <li><a href="/inventory.html"><span class="icon">🛒</span> Inventory</a></li>
+            <li><a href="/promotion.html"><span class="icon">🎟️</span> Promos</a></li>
+            <li><a href="/feedback.html"><span class="icon">⭐</span> Feedback</a></li>
+        </ul>
+        <div class="bottom-actions"><a href="/" class="btn-logout">Logout</a></div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="topbar">
+            <div class="date-time" id="datetime-display"></div>
+            <div class="admin-profile"><span>Admin User</span>
+                <div class="avatar">A</div>
+            </div>
+        </header>
+
+        <div class="views">
+            <section class="view active">
+                <div class="view-header">
+                    <h2>Order Management (Real-time Tracker)</h2>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Customer</th>
+                            <th>Items</th>
+                            <th>Total (Rs)</th>
+                            <th>Address</th>
+                            <th>Time</th>
+                            <th>Status Flow</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="orders-table-body"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<!-- Edit Order Modal -->
+<div id="edit-order-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Edit Order Details</h3>
+            <span class="close" onclick="closeModal('edit-order-modal')">&times;</span>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="edit-order-id">
+            <div class="form-group">
+                <label>Total Amount (Rs)</label>
+                <input type="number" id="edit-total-amount" step="0.01" readonly style="background: rgba(255,255,255,0.02); color: #888; cursor: not-allowed;">
+            </div>
+            <div class="form-group">
+                <label>Delivery Address</label>
+                <textarea id="edit-delivery-address" rows="3" readonly style="background: rgba(255,255,255,0.02); color: #888; cursor: not-allowed;"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Order Status (Editable)</label>
+                <select id="edit-status" style="border-color: var(--primary);">
+                    <option value="Pending">Pending</option>
+                    <option value="Preparing">Preparing</option>
+                    <option value="Ready">Ready</option>
+                    <option value="Delivered">Delivered</option>
+                </select>
+            </div>
+            <div style="margin-top: 20px; border-top: 1px solid #333; padding-top: 20px;">
+                <button class="btn btn-danger" onclick="deleteOrderFromModal()" style="width: 100%; color: #ff4742; background: rgba(255,71,66,0.1); border: 1px solid rgba(255,71,66,0.3);">🗑️ Delete Order Permanently</button>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeModal('edit-order-modal')">Cancel</button>
+            <button class="btn btn-primary" onclick="saveOrderDetails()">Save Status</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); }
+    .modal.active { display: flex; align-items: center; justify-content: center; }
+    .modal-content { background: #1a1a1a; width: 450px; border-radius: 12px; border: 1px solid #333; color: white; overflow: hidden; }
+    .modal-header { padding: 20px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
+    .modal-body { padding: 20px; }
+    .modal-footer { padding: 15px 20px; border-top: 1px solid #333; display: flex; justify-content: flex-end; gap: 10px; }
+    .close { color: #888; font-size: 24px; cursor: pointer; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 5px; color: #aaa; font-size: 0.9rem; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; background: #222; border: 1px solid #333; border-radius: 6px; color: white; }
+    .btn { padding: 10px 20px; border-radius: 6px; cursor: pointer; border: none; font-weight: 600; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-secondary { background: #333; color: white; }
+    .action-btn { background: none; border: none; cursor: pointer; font-size: 1.1rem; padding: 5px; opacity: 0.7; transition: 0.2s; }
+    .action-btn:hover { opacity: 1; }
+</style>
+
+<script src="/js/order.js"></script>
+</body>
+</html>
+
+</html>
