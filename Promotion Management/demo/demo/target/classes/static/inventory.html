@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Menu | Inventory Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="/js/auth.js"></script>
+</head>
+
+<body>
+<div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">Crave<span>Admin</span></div>
+        <ul class="nav-links">
+            <li><a href="/dashboard.html"><span class="icon">📊</span> Overview & Users</a></li>
+            <li><a href="/menu.html"><span class="icon">🍔</span> Menu</a></li>
+            <li><a href="/order.html"><span class="icon">📦</span> Orders</a></li>
+            <li class="active"><a href="/inventory.html"><span class="icon">🛒</span> Inventory</a></li>
+            <li><a href="/promotion.html"><span class="icon">🎟️</span> Promos</a></li>
+            <li><a href="/feedback.html"><span class="icon">⭐</span> Feedback</a></li>
+        </ul>
+        <div class="bottom-actions"><a href="/" class="btn-logout">Back to Store</a></div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="topbar">
+            <div class="date-time" id="datetime-display"></div>
+            <div class="admin-profile"><span>Admin User</span>
+                <div class="avatar">A</div>
+            </div>
+        </header>
+
+        <div class="views">
+            <section class="view active">
+                <div class="view-header">
+                    <h2>Inventory & Stock (Auto-deduct)</h2>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Item ID</th>
+                            <th>Name</th>
+                            <th>Current Stock</th>
+                            <th>Threshold (Alert)</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="inventory-table-body"></tbody>
+                    </table>
+                </div>
+
+                <div class="view-header" style="margin-top:50px;">
+                    <h2>Pantry Management (Raw Ingredients)</h2>
+                    <button class="primary-btn" id="add-pantry-btn">+ Add Item</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Quantity</th>
+                            <th>Unit</th>
+                            <th>Low Stock Threshold</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="pantry-table-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Pantry Modal -->
+            <div class="modal" id="pantry-modal">
+                <div class="modal-content glass-panel" style="background:#1f2232; color:white;">
+                    <h3>Add/Edit Pantry Item</h3>
+                    <form id="pantry-form">
+                        <input type="hidden" id="pantry-id">
+                        <div class="form-group">
+                            <label>Item Name (e.g. Carrot)</label>
+                            <input type="text" id="pantry-name" style="width:100%;" required>
+                        </div>
+                        <div style="display:flex; gap:15px;">
+                            <div class="form-group" style="flex:1;">
+                                <label>Quantity</label>
+                                <input type="number" id="pantry-qty" style="width:100%;" min="0" required>
+                            </div>
+                            <div class="form-group" style="flex:1;">
+                                <label>Unit (kg/gr/L/units)</label>
+                                <input type="text" id="pantry-unit" style="width:100%;" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Threshold for alert</label>
+                            <input type="number" id="pantry-threshold" style="width:100%;" min="0">
+                        </div>
+                        <div style="display:flex; gap:15px; margin-top:20px;">
+                            <button type="submit" class="primary-btn" style="flex:1;">Save Item</button>
+                            <button type="button" class="secondary-btn" onclick="document.getElementById('pantry-modal').classList.remove('active')">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="/js/inventory.js"></script>
+</body>
+
+</html>

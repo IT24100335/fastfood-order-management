@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Menu | Feedback Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script src="/js/auth.js"></script>
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">Crave<span>Admin</span></div>
+            <ul class="nav-links">
+                <li><a href="/dashboard.html"><span class="icon">📊</span> Overview & Users</a></li>
+                <li><a href="/menu.html"><span class="icon">🍔</span> Menu</a></li>
+                <li><a href="/order.html"><span class="icon">📦</span> Orders</a></li>
+                <li><a href="/inventory.html"><span class="icon">🛒</span> Inventory</a></li>
+                <li><a href="/promotion.html"><span class="icon">🎟️</span> Promos</a></li>
+                <li class="active"><a href="/feedback.html"><span class="icon">⭐</span> Feedback</a></li>
+            </ul>
+            <div class="bottom-actions"><a href="/" class="btn-logout">Back to Store</a></div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="topbar">
+                <div class="date-time" id="datetime-display"></div>
+                <div class="admin-profile"><span>Admin User</span>
+                    <div class="avatar">A</div>
+                </div>
+            </header>
+
+            <div class="views">
+                <section class="view active">
+                    <div class="view-header">
+                        <h2>Feedback & Average Ratings</h2>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Menu Item</th>
+                                    <th>Rating</th>
+                                    <th>Comment</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="feedback-table-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script src="/js/feedback.js"></script>
+</body>
+
+</html>
