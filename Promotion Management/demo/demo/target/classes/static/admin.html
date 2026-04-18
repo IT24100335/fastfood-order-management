@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | CraveBites</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">Crave<span>Admin</span></div>
+            <ul class="nav-links">
+                <li class="active" data-target="dashboard"><span class="icon">📊</span> Overview</li>
+                <li data-target="menu-manager"><span class="icon">🍔</span> Menu</li>
+                <li data-target="orders-manager"><span class="icon">📦</span> Orders</li>
+                <li data-target="inventory-manager"><span class="icon">🛒</span> Inventory</li>
+                <li data-target="promo-manager"><span class="icon">🎟️</span> Promos</li>
+                <li data-target="feedback-manager"><span class="icon">⭐</span> Feedback</li>
+            </ul>
+            <div class="bottom-actions">
+                <a href="/" class="btn-logout">Back to Store</a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="date-time" id="datetime-display"></div>
+                <div class="admin-profile">
+                    <span>Admin User</span>
+                    <div class="avatar">A</div>
+                </div>
+            </header>
+
+            <!-- Views Container -->
+            <div class="views">
+                <!-- Overview Dashboard -->
+                <section id="dashboard" class="view active">
+                    <h2>Quick Overview</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: rgba(255,193,7,0.2); color: #FFC107;">📦</div>
+                            <div class="stat-info">
+                                <h3>Today's Orders</h3>
+                                <p id="stat-total-orders">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: rgba(33,150,243,0.2); color: #2196F3;">⏳</div>
+                            <div class="stat-info">
+                                <h3>Pending Orders</h3>
+                                <p id="stat-pending-orders">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: rgba(76,175,80,0.2); color: #4CAF50;">💰</div>
+                            <div class="stat-info">
+                                <h3>Total Revenue</h3>
+                                <p id="stat-revenue">Rs 0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card alert">
+                            <div class="stat-icon" style="background: rgba(244,67,54,0.2); color: #F44336;">⚠️</div>
+                            <div class="stat-info">
+                                <h3>Low Stock Items</h3>
+                                <p id="stat-low-stock">0</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Menu Management View -->
+                <section id="menu-manager" class="view">
+                    <div class="view-header">
+                        <h2>Menu Management</h2>
+                        <button class="primary-btn" id="add-menu-btn">+ Add Item</button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Availability (Auto-hide)</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="menu-table-body">
+                                <!-- Injected via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Orders Management View -->
+                <section id="orders-manager" class="view">
+                    <div class="view-header">
+                        <h2>Order Management (Real-time Tracker)</h2>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Items</th>
+                                    <th>Total Amount</th>
+                                    <th>Time</th>
+                                    <th>Status Flow</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-table-body">
+                                <!-- Injected via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Inventory Management View -->
+                <section id="inventory-manager" class="view">
+                    <div class="view-header">
+                        <h2>Inventory & Stock (Auto-deduct)</h2>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item ID</th>
+                                    <th>Name</th>
+                                    <th>Current Stock</th>
+                                    <th>Threshold (Alert)</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventory-table-body">
+                                <!-- Injected via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Promos Management View -->
+                <section id="promo-manager" class="view">
+                    <div class="view-header">
+                        <h2>Promotion Management (Auto-Discount)</h2>
+                        <button class="primary-btn" id="add-promo-btn">+ Add Promo</button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Discount %</th>
+                                    <th>Status</th>
+                                    <th>Toggle Active</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="promos-table-body">
+                                <!-- Injected via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Feedback Management View -->
+                <section id="feedback-manager" class="view">
+                    <div class="view-header">
+                        <h2>Feedback & Average Ratings</h2>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Menu Item</th>
+                                    <th>Calculated Average Rating</th>
+                                    <th>Total Ratings</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="feedback-table-body">
+                                <!-- Injected via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals for Add/Edit -->
+    <!-- Menu Modal -->
+    <div class="modal" id="menu-modal">
+        <div class="modal-content">
+            <h3>Menu Item Details</h3>
+            <form id="menu-form">
+                <input type="hidden" id="menu-id">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="menu-name" required>
+                </div>
+                <div class="form-group row-group">
+                    <div>
+                        <label>Price (Rs)</label>
+                        <input type="number" id="menu-price" step="0.01" min="0" required>
+                    </div>
+                    <div>
+                        <label>Category</label>
+                        <select id="menu-category" required>
+                            <option value="burgers">Burgers</option>
+                            <option value="pizza">Pizza</option>
+                            <option value="beverages">Beverages</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Image URL</label>
+                    <input type="text" id="menu-image" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="menu-desc" required rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label style="display:flex; align-items:center; gap:10px;">
+                        <input type="checkbox" id="menu-available" checked>
+                        Available for ordering
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal('menu-modal')">Cancel</button>
+                    <button type="submit" class="primary-btn">Save Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promotion Management | CraveAdmin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            height: 100%;
+        }
+        .promo-code-badge {
+            display: inline-block;
+            background: rgba(255, 71, 66, 0.15);
+            color: #FF4742;
+            border: 1px solid rgba(255, 71, 66, 0.4);
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-family: monospace;
+            font-weight: 800;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+        }
+        .expiry-ok { color: #4caf50; font-weight: 600; }
+        .expiry-soon { color: #fbc02d; font-weight: 600; }
+        .expiry-expired { color: #ff4742; font-weight: 600; text-decoration: line-through; }
+    </style>
+    <script src="/js/auth.js"></script>
+</head>
+
+<body>
+<div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">Crave<span>Admin</span></div>
+        <ul class="nav-links">
+            <li><a href="/dashboard.html"><span class="icon">📊</span> Overview & Users</a></li>
+            <li><a href="/menu.html"><span class="icon">🍔</span> Menu</a></li>
+            <li><a href="/order.html"><span class="icon">📦</span> Orders</a></li>
+            <li><a href="/inventory.html"><span class="icon">🛒</span> Inventory</a></li>
+            <li class="active"><a href="/promotion.html"><span class="icon">🎟️</span> Promos</a></li>
+            <li><a href="/feedback.html"><span class="icon">⭐</span> Feedback</a></li>
+        </ul>
+        <div class="bottom-actions"><a href="/" class="btn-logout">Back to Store</a></div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="topbar">
+            <div class="date-time" id="datetime-display"></div>
+            <div class="admin-profile"><span>Admin User</span>
+                <div class="avatar">A</div>
+            </div>
+        </header>
+
+        <div class="views">
+            <section class="view active">
+                <div class="view-header">
+                    <h2>🎟️ Promotion Management</h2>
+                    <button class="primary-btn" id="add-promo-btn">+ Add Promo</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Promo Code</th>
+                            <th>Discount</th>
+                            <th>Expiry Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="promos-table-body">
+                        <tr><td colspan="6" style="text-align:center; opacity:0.5;">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<!-- Promotion Modal -->
+<div class="modal" id="promo-modal">
+    <div class="modal-content">
+        <h3 id="promo-modal-title">Add Promotion</h3>
+        <form id="promo-form" autocomplete="off">
+            <input type="hidden" id="promo-id">
+            <div class="form-group">
+                <label>Promo Name <span style="color:#ff4742">*</span></label>
+                <input type="text" id="promo-name" placeholder="e.g. Summer Sale" required>
+            </div>
+            <div class="form-group">
+                <label>Promo Code <span style="color:#ff4742">*</span></label>
+                <input type="text" id="promo-code" placeholder="e.g. SUMMER50" required
+                       style="text-transform:uppercase; letter-spacing:2px; font-family:monospace; font-size:1.1rem; font-weight:700;">
+                <small style="color:rgba(255,255,255,0.4); margin-top:5px; display:block;">Code will be saved in UPPERCASE automatically.</small>
+            </div>
+            <div class="form-group row-group">
+                <div>
+                    <label>Discount Percentage (%) <span style="color:#ff4742">*</span></label>
+                    <input type="number" id="promo-discount" placeholder="e.g. 20" min="1" max="100" step="0.1" required>
+                </div>
+                <div>
+                    <label>Expiry Date <span style="color:rgba(255,255,255,0.4); font-size:0.8rem;">(optional)</span></label>
+                    <input type="date" id="promo-expiry">
+                </div>
+            </div>
+            <div class="form-group">
+                <label style="display:flex; align-items:center; gap:12px; cursor:pointer;">
+                    <input type="checkbox" id="promo-active" checked style="width:18px; height:18px; cursor:pointer;">
+                    <span>Active (customers can use this code)</span>
+                </label>
+            </div>
+            <div id="promo-error" style="color:#ff4742; font-size:0.9rem; display:none; margin-bottom:10px;"></div>
+            <div class="form-actions">
+                <button type="button" class="btn-cancel" onclick="closePromoModal()">Cancel</button>
+                <button type="submit" class="primary-btn" id="promo-save-btn">Save Promotion</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="/js/promotion.js"></script>
+</body>
+
+</html>

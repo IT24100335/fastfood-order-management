@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | CraveBites</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/customer.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: linear-gradient(135deg, rgba(13,13,13,0.95), rgba(0,0,0,0.85)), 
+                        url('https://images.unsplash.com/photo-1550547660-d9450f859349?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+            overflow: hidden;
+        }
+
+        .auth-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .login-card {
+            background: rgba(20, 20, 20, 0.6);
+            padding: 50px;
+            border-radius: 30px;
+            width: 100%;
+            max-width: 440px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+            text-align: center;
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .subtitle { color: rgba(255,255,255,0.5); margin-bottom: 35px; font-size: 1rem; font-weight: 400; }
+
+        .form-group { text-align: left; margin-bottom: 25px; }
+        .form-group label { display: block; margin-bottom: 10px; font-weight: 700; color: white; font-size: 0.9rem; letter-spacing: 0.5px; }
+        .form-group input { 
+            width: 100%; padding: 14px 18px; border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 12px; font-size: 1rem; box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.3); color: white; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            font-family: 'Outfit';
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 0 4px rgba(255, 90, 54, 0.15);
+        }
+
+        .primary-btn {
+            width: 100%; padding: 16px; justify-content: center;
+            margin-top: 15px; font-size: 1.15rem; font-weight: 800;
+        }
+
+        .error-msg { 
+            background: rgba(229, 57, 53, 0.1); border: 1px solid rgba(229, 57, 53, 0.3); 
+            color: #ff5252; padding: 12px; border-radius: 10px; margin-bottom: 20px; 
+            font-size: 0.9rem; font-weight: 600; display: none;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .back-link:hover {
+            color: var(--primary-color);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <header class="glass-nav">
+        <a href="/index.html" style="text-decoration:none;"><div class="logo">Crave<span>Bites</span></div></a>
+        <div class="nav-actions">
+            <div id="user-display" class="user-info">
+                <a href="/login.html" class="login-link" style="color:var(--primary-color)">Login</a>
+                <a href="/signup.html" class="login-link">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="auth-container">
+        <div class="login-card">
+            <div class="logo">Crave<span>Bites</span></div>
+        <p class="subtitle">Log in to your account</p>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password" required>
+            </div>
+            <button type="submit" class="primary-btn">Log In</button>
+            <div id="error-msg" class="error-msg">Invalid username or password.</div>
+        </form>
+
+        <a href="/signup.html" class="back-link">Sign Up as Customer</a><br>
+        <a href="/index.html" class="back-link">← Back to Store</a>
+    </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('error-msg');
+            const submitBtn = document.querySelector('.primary-btn');
+
+            // Set loading state
+            submitBtn.textContent = 'Logging in...';
+            submitBtn.disabled = true;
+            errorMsg.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/users/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    const role = user.role;
+                    const username = user.username;
+
+                    // Store user info
+                    localStorage.setItem('manager_role', role);
+                    localStorage.setItem('manager_username', username);
+                    localStorage.setItem('customer_user', JSON.stringify(user));
+
+                    // Redirect based on role
+                    switch (role) {
+                        case 'CUSTOMER':
+                            window.location.href = '/index.html';
+                            break;
+                        case 'ADMIN':
+                            window.location.href = '/dashboard.html';
+                            break;
+                        case 'MENU_MANAGER':
+                            window.location.href = '/menu.html';
+                            break;
+                        case 'ORDER_MANAGER':
+                            window.location.href = '/order.html';
+                            break;
+                        case 'INVENTORY_MANAGER':
+                            window.location.href = '/inventory.html';
+                            break;
+                        case 'PROMOTION_MANAGER':
+                            window.location.href = '/promotion.html';
+                            break;
+                        case 'FEEDBACK_MANAGER':
+                            window.location.href = '/feedback.html';
+                            break;
+                        default:
+                            window.location.href = '/dashboard.html'; // Fallback
+                    }
+                } else {
+                    errorMsg.style.display = 'block';
+                    errorMsg.textContent = 'Invalid credentials. Please try again.';
+                    submitBtn.textContent = 'Log In';
+                    submitBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMsg.style.display = 'block';
+                errorMsg.textContent = 'Connection error. Please ensure backend is running.';
+                submitBtn.textContent = 'Log In';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>
